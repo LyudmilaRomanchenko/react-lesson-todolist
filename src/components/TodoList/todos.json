@@ -1,0 +1,5 @@
+[
+  { "id": 1, "text": "Посмотреть", "complited": true },
+  { "id": 2, "text": "Выучить", "complited": false },
+  { "id": 3, "text": "Запомнить", "complited": false }
+]

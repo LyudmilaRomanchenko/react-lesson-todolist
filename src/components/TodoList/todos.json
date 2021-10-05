@@ -1,5 +1,5 @@
 [
-  { "id": 1, "text": "Посмотреть", "complited": true },
+  { "id": 1, "text": "Посмотреть", "complited": false },
   { "id": 2, "text": "Выучить", "complited": false },
-  { "id": 3, "text": "Запомнить", "complited": false }
+  { "id": 3, "text": "Запомнить", "completed": false }
 ]

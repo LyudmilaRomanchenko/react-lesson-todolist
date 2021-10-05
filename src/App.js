@@ -7,8 +7,10 @@ import "./App.css";
 // import ColorPicker from "./components/ColorPicker/ColorPicker";
 // import Input from "./components/Input/Input";
 import React from "react";
+import shortid from "shortid";
 import TodoList from "./components/TodoList/TodoList";
 import todosInitial from "./components/TodoList/todos.json";
+import TodoEditor from "./components/TodoList/TodoEditor";
 
 // const colorPickerOptions = [
 //   { label: "red", color: "#F44336" },
@@ -30,6 +32,47 @@ class App extends React.Component {
     }));
   };
 
+  onToggleCompleted = (todoId) => {
+    // console.log(todoId);
+    this.setState(({ todos }) => ({
+      todos: todos.map((todo) =>
+        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
+      ),
+    }));
+  };
+
+  addTodo = (text) => {
+    // console.log(text);
+    const todo = {
+      id: shortid.generate(),
+      text,
+      completed: false,
+    };
+    // console.log(todo);
+
+    // this.setState(({ todos }) => ({
+    //   todos: [todo, ...todos],
+    // }));
+
+    this.setState((prevState) => ({
+      todos: [todo, ...prevState.todos],
+    }));
+
+    console.log(todo);
+  };
+
+  // onToggleComplited = (todoId) => {
+  //   this.setState(({ todos }) => ({
+  //     todos: todos.map((todo) =>
+  //       todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
+  //     ),
+  //   }));
+  // };
+
+  // this.setState(({ todos }) => ({
+  //     todos: todos.todos.map(todo => todo === todoId ? { ...todo, complited: !todo.complited } : todo)
+  //   })
+
   render() {
     const todos = this.state.todos;
     console.log(todos.length);
@@ -41,12 +84,17 @@ class App extends React.Component {
         <DropDown />
         <ColorPicker options={colorPickerOptions} />
         <Input onSubmit={this.renderForm} /> */}
+        <TodoEditor addTodo={this.addTodo} />
         <div>
           <p>Общее количество: {totalTodoCount}</p>
           <p>Количество выполненых: {completedTodoCount.length}</p>
         </div>
 
-        <TodoList todos={todos} deleteTodo={this.deleteTodo} />
+        <TodoList
+          todos={todos}
+          deleteTodo={this.deleteTodo}
+          onToggleCompleted={this.onToggleCompleted}
+        />
       </div>
     );
   }

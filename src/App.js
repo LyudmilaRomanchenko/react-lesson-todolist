@@ -11,6 +11,7 @@ import shortid from "shortid";
 import TodoList from "./components/TodoList/TodoList";
 import todosInitial from "./components/TodoList/todos.json";
 import TodoEditor from "./components/TodoList/TodoEditor";
+import Filter from "./components/TodoList/Filter";
 
 // const colorPickerOptions = [
 //   { label: "red", color: "#F44336" },
@@ -24,6 +25,7 @@ import TodoEditor from "./components/TodoList/TodoEditor";
 class App extends React.Component {
   state = {
     todos: todosInitial,
+    filter: "",
   };
 
   deleteTodo = (todoId) => {
@@ -58,7 +60,21 @@ class App extends React.Component {
       todos: [todo, ...prevState.todos],
     }));
 
-    console.log(todo);
+    // console.log(todo);
+  };
+
+  changeFilter = (e) => {
+    console.log(e.currentTarget.value);
+    this.setState({ filter: e.currentTarget.value });
+  };
+
+  getVisibleTodo = () => {
+    const { filter, todos } = this.state;
+    console.log(todos);
+    const normalizeTodo = filter.toLowerCase();
+    return todos.filter((todo) =>
+      todo.text.toLowerCase().includes(normalizeTodo)
+    );
   };
 
   // onToggleComplited = (todoId) => {
@@ -75,15 +91,21 @@ class App extends React.Component {
 
   render() {
     const todos = this.state.todos;
-    console.log(todos.length);
+    // console.log(todos.length);
+    // const filter = this.state;
     const totalTodoCount = todos.length;
     const completedTodoCount = todos.filter((todo) => todo.complited);
+    const visibleTodos = this.getVisibleTodo();
+    console.log(visibleTodos);
     return (
       <div className="App">
         {/* <Counter initualValue={100} />
         <DropDown />
         <ColorPicker options={colorPickerOptions} />
         <Input onSubmit={this.renderForm} /> */}
+
+        <Filter value={this.state.filter} onChange={this.changeFilter} />
+
         <TodoEditor addTodo={this.addTodo} />
         <div>
           <p>Общее количество: {totalTodoCount}</p>
@@ -91,7 +113,7 @@ class App extends React.Component {
         </div>
 
         <TodoList
-          todos={todos}
+          todos={visibleTodos}
           deleteTodo={this.deleteTodo}
           onToggleCompleted={this.onToggleCompleted}
         />
